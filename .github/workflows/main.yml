@@ -25,7 +25,8 @@ jobs:
           -Dsonar.organization=tp-devops-sonar-test-aziz \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-          --file ./simple-api/pom.xml
+          --file pom.xml
+        working-directory: ./simple-api  # Set the working directory to where pom.xml is located
 
   build-and-push-docker-image:
     needs: test-backend
