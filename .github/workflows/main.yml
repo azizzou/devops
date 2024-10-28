@@ -1,6 +1,7 @@
 name: CI devops 2024
+
 on:
-  #to begin you want to launch this job in main and develop
+  # to begin you want to launch this job in main and develop
   push:
     branches: [main, develop]
   pull_request:
@@ -19,7 +20,12 @@ jobs:
           distribution: 'corretto'
 
       - name: Build and test with Maven
-        run: mvn clean verify -f ./simple-api/pom.xml
+        run: mvn -B verify sonar:sonar \
+          -Dsonar.projectKey=tp-devops-sonar-test-aziz_youhou \
+          -Dsonar.organization=tp-devops-sonar-test-aziz \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+          --file ./simple-api/pom.xml
 
   build-and-push-docker-image:
     needs: test-backend
